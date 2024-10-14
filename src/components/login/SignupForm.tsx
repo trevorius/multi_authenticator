@@ -4,40 +4,51 @@ import bcrypt from 'bcryptjs';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import SignupResult from '@/components/login/SignupResult'
 
-async function signUp(formData: FormData) {
-  'use server'
 
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
-  const username = formData.get('username') as string;
-  const password = formData.get('password') as string;
+export default function SignupForm({
+  searchParams
+}: {
+  searchParams: { message: string }
+}) {
+  
+  
+  async function signUp(formData: FormData) {
+    'use server'
 
-  if (!name || !email || !username || !password) {
-    return { error: 'All fields are required' };
+    const name = formData.get('name') as string
+    const email = formData.get('email') as string
+    const username = formData.get('username') as string
+    const password = formData.get('password') as string
+
+    if (!name || !email || !username || !password) {
+      throw redirect('/signup?message=All fields are required')
+      return
+    }
+
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10)
+      await prisma.user.create({
+        data: {
+          name,
+          email,
+          username,
+          password: hashedPassword,
+        },
+      })
+    } catch (error) {
+      console.error('Error creating user:', error)
+      throw redirect('/signup?message=Failed to create user')
+    }
+    throw redirect('/signin?message=Sign up successful!')
   }
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        username,
-        password: hashedPassword,
-      },
-    });
 
-    redirect('/login');
-  } catch (error) {
-    console.error('Error creating user:', error);
-    return { error: 'Failed to create user' };
-  }
-}
 
-export default function SignupForm() {
   return (
     <form action={signUp} className="space-y-4 max-w-md mx-auto">
+      <SignupResult message={searchParams.message} />
       <div>
         <Label htmlFor="name">Name</Label>
         <Input type="text" id="name" name="name" placeholder="Name" required />
