@@ -12,6 +12,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 
 export default function AddEnvironmentPage() {
+
+    const addEnvironment = async (formData: FormData) => {
+    'use server';
+    const user = await auth();
+    const name = formData.get('name');
+    const type = formData.get('type');
+
+    console.log(name, type);
+  };
+
   return (
     <div className='container mx-auto mt-8'>
       <Card className='shadow-md mx-2 md:w-1/2 md:mx-auto'>
