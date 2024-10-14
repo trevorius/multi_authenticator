@@ -1,39 +1,31 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useEffect, useRef } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 interface SignupResultProps {
-  error?: string | null;
-  success?: boolean;
   message?: string | null;
 }
 
-export default function SignupResult({
-  error,
-  success,
-  message,
-}: SignupResultProps) {
-  const router = useRouter();
+export default function SignupResult({ message }: SignupResultProps) {
+  const { toast } = useToast();
+  const toastShownRef = useRef(false);
 
   useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => {
-        router.push('/login');
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [success, router]);
+    if (message && !toastShownRef.current) {
+      const isError = message.includes('Failed');
+      console.log('Attempting to show toast:', { isError, message });
 
-  return (
-    <Alert>
-      <AlertTitle>
-        {message.includes('Failed') ? 'Error' : 'Success'}
-      </AlertTitle>
-      <AlertDescription>
-        {message || 'Sign up successful! Redirecting to login...'}
-      </AlertDescription>
-    </Alert>
-  );
+      toast({
+        title: isError ? 'Error' : 'Success',
+        description: message,
+        variant: isError ? 'destructive' : 'default',
+        duration: 5000,
+      });
+
+      toastShownRef.current = true;
+    }
+  }, [message, toast]);
+
+  return null; // This component doesn't render anything visible
 }
