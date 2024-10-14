@@ -1,6 +1,8 @@
 import { SessionProvider } from 'next-auth/react';
 import '@/styles/global.css';
 import { Toaster } from '@/components/ui/toaster';
+import { Sidebar } from '@/components/Sidebar';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 
 export const metadata = {
   title: 'Next.js',
@@ -15,7 +17,19 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className='flex'>
+              <Sidebar />
+              <main className='flex-1'>{children}</main>
+            </div>
+          </ThemeProvider>
+        </SessionProvider>
         <Toaster />
       </body>
     </html>

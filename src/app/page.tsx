@@ -1,10 +1,9 @@
-import AuthStatus from '@/components/AuthStatus'
+import AuthStatus from '@/components/AuthStatus';
 
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome to my app</h1>
-      <AuthStatus />
+    <div className='m-4'>
+      <h1 className='text-4xl font-bold'>2FA Totp</h1>
     </div>
-  )
+  );
 }
