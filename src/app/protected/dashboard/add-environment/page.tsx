@@ -1,3 +1,5 @@
+import { auth } from '@/auth';
+import { AddToast } from '@/components/AddToast';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -9,31 +11,66 @@ import {
 } from '@/components/ui/card';
 
 import { Input } from '@/components/ui/input';
+import prisma from '@/services/prisma';
 import { Label } from '@radix-ui/react-label';
+import { redirect } from 'next/navigation';
 
-export default function AddEnvironmentPage() {
-
-    const addEnvironment = async (formData: FormData) => {
+export default function AddEnvironmentPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const addEnvironment = async (formData: FormData) => {
     'use server';
-    const user = await auth();
-    const name = formData.get('name');
-    const type = formData.get('type');
+    const session = await auth();
+    const name = formData.get('name') as string;
+    const type = formData.get('type') as string;
+    const randomCallId = Math.random().toString(36).substring(2, 15);
 
-    console.log(name, type);
+    if (!session?.user) {
+      throw redirect('/signin');
+      return;
+    }
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email: session?.user?.email as string },
+      });
+
+      const environment = await prisma.environment.create({
+        data: {
+          name,
+          type,
+          userId: user?.id as unknown as number,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw redirect(
+        `/protected/dashboard/add-environment?title=Error&description=Failed+to+create+environment&variant=destructive&call=${randomCallId}`
+      );
+      return;
+    }
+    throw redirect(
+      '/protected/dashboard/?title=Success&description=Environment+added+successfully&variant=success'
+    );
   };
 
   return (
     <div className='container mx-auto mt-8'>
+      <AddToast
+        title={searchParams.title as string}
+        description={searchParams.description as string}
+        variant={searchParams.variant as string}
+        callId={searchParams.call as string}
+      />
       <Card className='shadow-md mx-2 md:w-1/2 md:mx-auto'>
         <CardHeader>
           <CardTitle>
-            <h2 className='text-2xl font-bold'>Add an environment</h2>
+            <div className='text-2xl font-bold'>Add an environment</div>
           </CardTitle>
-          <CardDescription>
-            <p>Add an environment to your account</p>
-          </CardDescription>
+          <CardDescription>Add an environment to your account</CardDescription>
         </CardHeader>
-        <form>
+        <form action={addEnvironment}>
           <CardContent>
             <div className='flex flex-col gap-2'>
               <div className='flex flex-row flex-wrap'>
@@ -60,7 +97,7 @@ export default function AddEnvironmentPage() {
             </div>
           </CardContent>
           <CardFooter className='flex justify-end pt-4'>
-            <Button type='submit'>Sign In</Button>
+            <Button type='submit'>Save</Button>
           </CardFooter>
         </form>
       </Card>
