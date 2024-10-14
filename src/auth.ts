@@ -1,5 +1,7 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import bcrypt from 'bcryptjs'
+import prisma from "@/services/prisma"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -13,14 +15,50 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" }
       },
       authorize: async (credentials, request) => {
-        let user = null;
+        // let user = null;
         
-        const AdminUser = { id: "1", name: "Admin",username: "admin", email: "admin@example.com", password: "admin" }
+        // const AdminUser = { id: "1", name: "Admin",username: "admin", email: "admin@example.com", password: "admin" }
 
-          if (credentials.username === AdminUser.username && credentials.password === AdminUser.password) {
-            return AdminUser
-          }
+        //   if (credentials.username === AdminUser.username && credentials.password === AdminUser.password) {
+        //     return AdminUser
+        //   }
+        //   return null
+
+        if (!credentials?.username || !credentials?.password) {
           return null
+        }
+
+        try {
+          // Find the user in the database
+          const user = await prisma.user.findUnique({
+            where: { username: credentials.username }
+          })
+
+          if (!user) {
+            return null
+          }
+
+          // Compare the provided password with the hashed password in the database
+          const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
+
+          if (!isPasswordValid) {
+            return null
+          }
+
+          // Return user object if validation is successful
+          return {
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            email: user.email
+          }
+        } catch (error) {
+          console.error('Error during authentication:', error)
+          return null
+        } finally {
+          await prisma.$disconnect()
+        }
+
       }
 
     
