@@ -1,4 +1,5 @@
-import { auth } from '@/auth';
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,23 +13,20 @@ import {
 import prisma from '@/services/prisma';
 import Link from 'next/link';
 import { LogOutButton } from '@/components/login/LogOutButton';
+import { useSession } from 'next-auth/react';
 
-export async function UserButton() {
-  const session = await auth();
-  const user = session?.user?.email
-    ? await prisma.user.findUnique({
-        where: {
-          email: session.user.email,
-        },
-      })
-    : null;
+export function UserButton() {
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
-  const initials = user?.name ? `${user.name[0]}${user.name[1] || ''}` : 'UN';
+  const initials = session?.user?.name
+    ? `${session.user.name[0]}${session.user.name[1] || ''}`
+    : 'UN';
 
-  if (!user) {
+  if (!session) {
     return (
       <Link href='/signin'>
-        <Button>Login</Button>;
+        <Button>Login</Button>
       </Link>
     );
   }
@@ -44,9 +42,9 @@ export async function UserButton() {
       <DropdownMenuContent className='w-56' align='end' forceMount>
         <DropdownMenuLabel className='font-normal'>
           <div className='flex flex-col space-y-1'>
-            <p className='text-sm font-medium leading-none'>{user.name}</p>
+            <p className='text-sm font-medium leading-none'>{user?.name}</p>
             <p className='text-xs leading-none text-muted-foreground'>
-              {user.email}
+              {user?.email}
             </p>
           </div>
         </DropdownMenuLabel>

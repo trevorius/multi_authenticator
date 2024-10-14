@@ -4,8 +4,8 @@ import { UserButton } from '@/components/UserButton';
 import { ThemeToggleButton } from './ThemeToggleButton';
 
 const navItems = [
-  { name: 'Dashboard', href: '/dashboard' },
-  { name: 'Add Environment', href: '/dashboard/add-environment' },
+  { name: 'Dashboard', href: '/protected/dashboard' },
+  { name: 'Add Environment', href: '/protected/dashboard/add-environment' },
 ];
 
 export function Sidebar() {
