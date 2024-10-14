@@ -19,7 +19,7 @@ export default function SignupResult({ message }: SignupResultProps) {
       toast({
         title: isError ? 'Error' : 'Success',
         description: message,
-        variant: isError ? 'destructive' : 'default',
+        variant: isError ? 'destructive' : 'success',
         duration: 5000,
       });
 
