@@ -3,6 +3,7 @@
 
 import { useSession } from "next-auth/react"
 import { signIn, signOut } from "next-auth/react"
+import Link from "next/link"
 
 export default function AuthStatus() {
   const { data: session, status } = useSession()
@@ -15,7 +16,9 @@ export default function AuthStatus() {
     return (
       <div>
         <h2 className="text-2xl font-bold">You are not signed in.</h2>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => signIn()}>Sign In</button>
+        <Link href="/signin">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Sign In</button>
+        </Link>
       </div>
     )
   }
