@@ -12,7 +12,7 @@ import {
 
 import { Input } from '@/components/ui/input';
 import prisma from '@/services/prisma';
-import { Label } from '@radix-ui/react-label';
+import { Label } from '@/components/ui/label';
 import { redirect } from 'next/navigation';
 
 export default function AddEnvironmentPage({

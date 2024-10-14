@@ -1,3 +1,5 @@
+'use client';
+
 import { Code2Fa } from '@prisma/client';
 import {
   Table,
