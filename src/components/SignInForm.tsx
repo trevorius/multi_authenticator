@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
+import Link from "next/link"
 
 export default function SignInForm() {
   const [username, setUserName] = useState("")
@@ -69,6 +70,13 @@ export default function SignInForm() {
           </CardFooter>
         </form>
       </CardContent>
+      <CardFooter>
+        <Link href="/signup" className="text-sm text-gray-500">Don't have an account...? 
+        <Button 
+        variant="link"
+        className="ps-3 text-blue-500 font-bold">Sign Up</Button>
+        </Link>
+      </CardFooter>
     </Card>
   )
 }
