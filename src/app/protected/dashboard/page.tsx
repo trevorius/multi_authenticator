@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+
 import { AddToast } from '@/components/AddToast';
 import { auth } from '@/auth';
 import prisma from '@/services/prisma';
+import { EnvironmentCard } from '@/components/EnvironmentCard';
 
 export default async function DashboardPage({
   searchParams,
@@ -17,6 +18,7 @@ export default async function DashboardPage({
 
   const environments = await prisma.environment.findMany({
     where: { userId: user.id },
+    include: { Codes2Fa: true },
   });
 
   return (
@@ -36,14 +38,7 @@ export default async function DashboardPage({
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {environments.map((environment) => (
-          <Card key={environment.id}>
-            <CardHeader>
-              <CardTitle>{environment.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>Status: Active</p>
-            </CardContent>
-          </Card>
+          <EnvironmentCard environment={environment} key={environment.id} />
         ))}
       </div>
     </div>
