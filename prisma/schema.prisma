@@ -11,9 +11,26 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  username String @unique
-  name  String?
-  password String
+  id            Int     @id @default(autoincrement())
+  email         String  @unique
+  username      String @unique
+  name          String?
+  password      String
+  environments  Environment[]
+}
+
+model Environment{
+  id            String @id @default(cuid())
+  name          String
+  type          String
+  userId        Int
+  user          User @relation(fields: [userId], references: [id])  
+  Codes2Fa      Code2Fa[]   
+}
+
+model Code2Fa {
+  SecretCode    String @id
+  name          String
+  EnvironmentId String
+  environment   Environment @relation(fields: [EnvironmentId], references: [id])
 }
