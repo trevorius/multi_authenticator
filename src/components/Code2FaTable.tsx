@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { deleteCode } from '@/app/protected/dashboard/environments/actions';
 import { AddToast } from './AddToast';
 import { useState } from 'react';
+import { Trash } from 'lucide-react';
 
 export function Code2FaTable({
   codes,
@@ -92,9 +93,10 @@ export function Code2FaTable({
               <TableCell>
                 <Button
                   variant='destructive'
+                  size='icon'
                   onClick={() => handleDelete(code.SecretCode)}
                 >
-                  Delete
+                  <Trash className='w-4 h-4' />
                 </Button>
               </TableCell>
             </TableRow>

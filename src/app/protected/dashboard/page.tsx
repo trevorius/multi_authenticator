@@ -22,7 +22,7 @@ export default async function DashboardPage({
   });
 
   return (
-    <div className='container mx-auto px-4 py-8'>
+    <div className='container mx-auto px-2 py-8'>
       <AddToast
         title={searchParams.title as string}
         description={searchParams.description as string}
@@ -36,7 +36,7 @@ export default async function DashboardPage({
         </Link>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
         {environments.map((environment) => (
           <EnvironmentCard environment={environment} key={environment.id} />
         ))}

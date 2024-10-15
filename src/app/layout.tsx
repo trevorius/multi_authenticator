@@ -26,7 +26,7 @@ export default function RootLayout({
           >
             <div className='flex h-screen bg-gray-100 dark:bg-gray-900'>
               <Sidebar />
-              <main className='flex-1 p-4 md:ml-64'>{children}</main>
+              <main className='flex-1 md:ml-44'>{children}</main>
             </div>
           </ThemeProvider>
         </SessionProvider>
