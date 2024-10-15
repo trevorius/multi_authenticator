@@ -66,7 +66,7 @@ export function Code2FaCell({
     }
   };
 
-  if (isLoading) return <span>Loading...</span>;
+  // if (isLoading) return <span>Loading...</span>;
   if (error) return <span>{error}</span>;
 
   return (
