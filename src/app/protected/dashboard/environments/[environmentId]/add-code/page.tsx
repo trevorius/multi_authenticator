@@ -11,6 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { getUser } from '@/auth';
 
 export default async function AddCodePage({
   params,
@@ -21,6 +24,16 @@ export default async function AddCodePage({
 }) {
   const createCode = async (formData: FormData) => {
     'use server';
+    const user = await getUser();
+    if (!user) {
+      const randomCallId = Math.random().toString(36).substring(2, 15);
+      const searchParams = new URLSearchParams();
+      searchParams.set('title', 'Unauthorized');
+      searchParams.set('description', 'Unauthorized');
+      searchParams.set('variant', 'destructive');
+      searchParams.set('callId', randomCallId);
+      throw redirect('/protected/dashboard/?' + searchParams.toString());
+    }
     const name = formData.get('name') as string;
     const secretCode = formData.get('secretCode') as string;
     const environmentId = formData.get('environmentId') as string;
@@ -33,12 +46,29 @@ export default async function AddCodePage({
           EnvironmentId: environmentId,
         },
       });
-
-      return { success: true, code: newCode };
     } catch (error) {
       console.error('Error creating code:', error);
-      return { success: false, error: 'Failed to create code' };
+      const randomCallId = Math.random().toString(36).substring(2, 15);
+      const searchParams = new URLSearchParams();
+      searchParams.set('title', 'Failed to create code');
+      searchParams.set('description', 'Failed to create code');
+      searchParams.set('variant', 'destructive');
+      searchParams.set('callId', randomCallId);
+      throw redirect(
+        '/protected/dashboard/environments/' +
+          environmentId +
+          '/add-code/' +
+          '?' +
+          searchParams.toString()
+      );
     }
+    const randomCallId = Math.random().toString(36).substring(2, 15);
+    const searchParams = new URLSearchParams();
+    searchParams.set('title', 'Code created');
+    searchParams.set('description', 'Code created');
+    searchParams.set('variant', 'success');
+    searchParams.set('callId', randomCallId);
+    throw redirect('/protected/dashboard/?' + searchParams.toString());
   };
 
   return (
