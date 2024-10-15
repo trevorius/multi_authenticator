@@ -56,3 +56,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
 });
+
+export const getUser = async () => {
+  const session = await auth();
+  const user = await prisma.user.findUnique({
+    where: {
+      email: session?.user?.email as string,
+    },
+  });
+  return user;
+};

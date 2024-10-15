@@ -74,8 +74,10 @@ export default function AddEnvironmentPage({
           <CardContent>
             <div className='flex flex-col gap-2'>
               <div className='flex flex-row flex-wrap'>
-                <div className='flex flex-col w-full lg:w-1/2 lg:pr-2'>
-                  <Label htmlFor='environment-name'>Environment Name</Label>
+                <div className='flex flex-col w-full lg:w-1/2 lg:pr-2 mb-2'>
+                  <Label className='mb-1' htmlFor='environment-name'>
+                    Environment Name
+                  </Label>
                   <Input
                     type='text'
                     name='name'
@@ -85,7 +87,9 @@ export default function AddEnvironmentPage({
                   />
                 </div>
                 <div className='flex flex-col w-full lg:w-1/2 lg:pl-2'>
-                  <Label htmlFor='environment-type'>Environment Type</Label>
+                  <Label className='mb-1' htmlFor='environment-type'>
+                    Environment Type
+                  </Label>
                   <Input
                     type='text'
                     name='type'
