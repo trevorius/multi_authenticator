@@ -42,7 +42,7 @@ export default async function AddCodePage({
       const newCode = await prisma.code2Fa.create({
         data: {
           name,
-          SecretCode: secretCode,
+          secretCode: secretCode,
           EnvironmentId: environmentId,
         },
       });

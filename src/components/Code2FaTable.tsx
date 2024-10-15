@@ -81,12 +81,15 @@ export function Code2FaTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {displayedCodes?.map((code) => (
-            <TableRow key={code.SecretCode}>
+          {displayedCodes?.map((code, index) => (
+            <TableRow
+              key={index}
+              //   key={code.SecretCode}
+            >
               <TableCell>{code.name}</TableCell>
               <TableCell>
                 <Code2FaCell
-                  secretCode={code.SecretCode}
+                  secretCode={code.secretCode}
                   environmentId={environmentId}
                 />
               </TableCell>
@@ -94,7 +97,7 @@ export function Code2FaTable({
                 <Button
                   variant='destructive'
                   size='icon'
-                  onClick={() => handleDelete(code.SecretCode)}
+                  onClick={() => handleDelete(code.secretCode)}
                 >
                   <Trash className='w-4 h-4' />
                 </Button>

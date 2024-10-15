@@ -1,11 +1,8 @@
-import * as OTPAuth from 'otpauth';
+import { TOTP } from 'totp-generator';
 
-export function generateTOTP(secret: string): string {
-  const totp = new OTPAuth.TOTP({
-    secret: OTPAuth.Secret.fromBase32(secret),
-    digits: 6,
-    period: 30,
-  });
+export function generateTOTP(secret: string): { otp: string; expires: number } {
+  console.log('generating TOTP', secret);
+  const { otp, expires } = TOTP.generate(secret);
 
-  return totp.generate();
+  return { otp, expires };
 }

@@ -12,7 +12,7 @@ export async function deleteCode(codeId: string) {
   // find the code and its environemnt if nvironment user is user then delete it
   const code = await prisma.code2Fa.findUnique({
     where: {
-      SecretCode: codeId,
+      secretCode: codeId,
     },
     include: {
       environment: true,
@@ -26,7 +26,7 @@ export async function deleteCode(codeId: string) {
   }
   await prisma.code2Fa.delete({
     where: {
-      SecretCode: codeId,
+      secretCode: codeId,
     },
   });
   return { success: 'Code deleted' };
