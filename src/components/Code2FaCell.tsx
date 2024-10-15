@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 
 export function Code2FaCell({
   secretCode,
@@ -69,10 +70,18 @@ export function Code2FaCell({
   if (error) return <span>{error}</span>;
 
   return (
-    <div>
+    <div className='flex items-center flex-wrap'>
       <span>{code}</span>
-      <span> (Valid for {timeLeft} seconds)</span>
-      <button onClick={copyToClipboard}>{copyStatus}</button>
+      <span className='text-xs text-gray-500 px-1'>
+        (Valid for {timeLeft} seconds)
+      </span>
+      <Button
+        className='text-xs text-gray-500 px-1 '
+        variant='ghost'
+        onClick={copyToClipboard}
+      >
+        {copyStatus}
+      </Button>
     </div>
   );
 }
