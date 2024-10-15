@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Code2Fa } from '@prisma/client';
+import { Code2Fa } from "@prisma/client";
 import {
   Table,
   TableBody,
@@ -8,15 +8,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import { Button } from '@/components/ui/button';
-import { Code2FaCell } from '@/components/Code2FaCell';
-import Link from 'next/link';
-import { deleteCode } from '@/app/protected/dashboard/environments/actions';
-import { AddToast } from './AddToast';
-import { useState } from 'react';
-import { Trash } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Code2FaCell } from "@/components/Code2FaCell";
+import Link from "next/link";
+import { deleteCode } from "@/app/protected/dashboard/environments/actions";
+import { AddToast } from "./AddToast";
+import { useState } from "react";
+import { Trash } from "lucide-react";
 
 export function Code2FaTable({
   codes,
@@ -28,7 +28,7 @@ export function Code2FaTable({
   const [toast, setToast] = useState<{
     title: string;
     description: string;
-    variant: 'default' | 'destructive' | 'success';
+    variant: "default" | "destructive" | "success";
     callId: string;
   } | null>();
   const [displayedCodes, setDisplayedCodes] = useState<Code2Fa[]>(codes);
@@ -38,21 +38,21 @@ export function Code2FaTable({
     const response = await deleteCode(secretCode);
     if (response.error) {
       setToast({
-        title: 'Error',
+        title: "Error",
         description: response.error,
-        variant: 'destructive',
+        variant: "destructive",
         callId: secretCode,
       });
     }
     if (response.success) {
       setToast({
-        title: 'Success',
+        title: "Success",
         description: response.success,
-        variant: 'success',
+        variant: "success",
         callId: secretCode,
       });
       setDisplayedCodes(
-        displayedCodes.filter((code) => code.SecretCode !== secretCode)
+        displayedCodes.filter((code) => code.secretCode !== secretCode)
       );
     }
   };
@@ -65,7 +65,7 @@ export function Code2FaTable({
         variant={toast?.variant || null}
         callId={toast?.callId || null}
       />
-      <div className='mb-4'>
+      <div className="mb-4">
         <Link
           href={`/protected/dashboard/environments/${environmentId}/add-code`}
         >
@@ -95,11 +95,11 @@ export function Code2FaTable({
               </TableCell>
               <TableCell>
                 <Button
-                  variant='destructive'
-                  size='icon'
+                  variant="destructive"
+                  size="icon"
                   onClick={() => handleDelete(code.secretCode)}
                 >
-                  <Trash className='w-4 h-4' />
+                  <Trash className="w-4 h-4" />
                 </Button>
               </TableCell>
             </TableRow>
