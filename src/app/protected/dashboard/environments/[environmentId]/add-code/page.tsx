@@ -14,6 +14,7 @@ import {
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getUser } from '@/auth';
+import SecretInput from '@/components/SecretInput';
 
 export default async function AddCodePage({
   params,
@@ -97,10 +98,7 @@ export default async function AddCodePage({
               <Label htmlFor='name'>Name</Label>
               <Input type='text' id='name' name='name' required />
             </div>
-            <div>
-              <Label htmlFor='secretCode'>Secret Code</Label>
-              <Input type='text' id='secretCode' name='secretCode' required />
-            </div>
+            <SecretInput />
           </CardContent>
           <CardFooter className='flex justify-end pt-4'>
             <Button type='submit'>Save</Button>
