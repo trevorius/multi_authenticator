@@ -49,7 +49,7 @@ export function Sidebar() {
             <Button
               variant='outline'
               size='icon'
-              className='fixed top-4 right-4 z-50'
+              className='fixed top-1 right-4 z-50'
             >
               <Menu className='h-[1.2rem] w-[1.2rem]' />
             </Button>
