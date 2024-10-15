@@ -31,3 +31,34 @@ export async function deleteCode(codeId: string) {
   });
   return { success: 'Code deleted' };
 }
+
+export async function deleteEnvironment(environmentId: string) {
+  const user = await getUser();
+  if (!user) {
+    return { error: 'User not found' };
+  }
+  const environment = await prisma.environment.findUnique({
+    where: {
+      id: environmentId,
+    },
+    include: {
+      Codes2Fa: true,
+    },
+  });
+  if (!environment) {
+    return { error: 'Environment not found' };
+  }
+  if (environment.userId !== user.id) {
+    return { error: 'You are not authorized to delete this environment' };
+  }
+  try {
+    await prisma.environment.delete({
+      where: {
+        id: environmentId,
+      },
+    });
+  } catch (error) {
+    return { error: 'Error deleting environment' };
+  }
+  return { success: 'Environment deleted' };
+}

@@ -1,6 +1,10 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Environment, Code2Fa } from '@prisma/client';
 import { Code2FaTable } from '@/components/Code2FaTable';
+import { Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { DeleteButton } from '@/components/DeleteButton';
+import { deleteEnvironment } from '@/app/protected/dashboard/environments/actions';
 
 export function EnvironmentCard({
   environment,
@@ -10,7 +14,15 @@ export function EnvironmentCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-xl font-bold'>{environment.name}</CardTitle>
+        <CardTitle className='text-xl font-bold flex flex-wrap justify-between'>
+          <div className=''>{environment.name}</div>
+          <div className=''>
+            <DeleteButton
+              deleteAction={deleteEnvironment}
+              id={environment.id}
+            />
+          </div>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Code2FaTable

@@ -24,7 +24,7 @@ model Environment{
   name          String
   type          String
   userId        Int
-  user          User @relation(fields: [userId], references: [id])  
+  user          User @relation(fields: [userId], references: [id], onDelete: Restrict)  
   Codes2Fa      Code2Fa[]   
 }
 
@@ -32,5 +32,5 @@ model Code2Fa {
   secretCode    String @id
   name          String
   EnvironmentId String
-  environment   Environment @relation(fields: [EnvironmentId], references: [id])
+  environment   Environment @relation(fields: [EnvironmentId], references: [id], onDelete: Restrict)
 }
