@@ -13,6 +13,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Code2FaCell } from '@/components/Code2FaCell';
 import Link from 'next/link';
+import { deleteCode } from '@/app/protected/dashboard/environments/actions';
+import { AddToast } from './AddToast';
+import { useState } from 'react';
 
 export function Code2FaTable({
   codes,
@@ -21,12 +24,46 @@ export function Code2FaTable({
   codes: Code2Fa[];
   environmentId: string;
 }) {
+  const [toast, setToast] = useState<{
+    title: string;
+    description: string;
+    variant: 'default' | 'destructive' | 'success';
+    callId: string;
+  } | null>();
+  const [displayedCodes, setDisplayedCodes] = useState<Code2Fa[]>(codes);
+
   const handleDelete = async (secretCode: string) => {
     // Implement delete functionality
+    const response = await deleteCode(secretCode);
+    if (response.error) {
+      setToast({
+        title: 'Error',
+        description: response.error,
+        variant: 'destructive',
+        callId: secretCode,
+      });
+    }
+    if (response.success) {
+      setToast({
+        title: 'Success',
+        description: response.success,
+        variant: 'success',
+        callId: secretCode,
+      });
+      setDisplayedCodes(
+        displayedCodes.filter((code) => code.SecretCode !== secretCode)
+      );
+    }
   };
 
   return (
     <div>
+      <AddToast
+        title={toast?.title}
+        description={toast?.description}
+        variant={toast?.variant}
+        callId={toast?.callId}
+      />
       <div className='mb-4'>
         <Link
           href={`/protected/dashboard/environments/${environmentId}/add-code`}
@@ -43,7 +80,7 @@ export function Code2FaTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {codes?.map((code) => (
+          {displayedCodes?.map((code) => (
             <TableRow key={code.SecretCode}>
               <TableCell>{code.name}</TableCell>
               <TableCell>

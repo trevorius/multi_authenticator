@@ -9,20 +9,21 @@ export function AddToast({
   variant,
   callId,
 }: {
-  title: string;
-  description: string;
-  callId: string;
-  variant: string;
+  title: string | null;
+  description: string | null;
+  callId: string | null;
+  variant: string | null;
 }) {
   const { toast } = useToast();
 
   useEffect(() => {
-    toast({
-      title,
-      description,
-      variant,
-      duration: 5000,
-    });
+    if (title || description || variant || callId)
+      toast({
+        title: title || '',
+        description: description || '',
+        variant: variant || 'default',
+        duration: 5000,
+      });
   }, [title, description, toast, callId]);
 
   return null;
