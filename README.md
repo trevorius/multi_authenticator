@@ -1,8 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) project bootstrapped with [
+`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### install the project 
+### install the project
+
 First, install the project:
 
 ```bash
@@ -10,11 +12,13 @@ npm install
 ```
 
 instantiate sqlite database and migrate with prisma
+
 ```bash
 npx prisma migrate dev
 ```
 
 ### run the project in development
+
 First, run the development server:
 
 ```bash
@@ -34,9 +38,11 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 ## Dependencies
 
 ### backend
+
 - [Prisma](https://www.prisma.io/)
 
 ### frontend
+
 - [React](https://reactjs.org/)
 - [Next.js](https://nextjs.org)
 - [Tailwind CSS](https://tailwindcss.com/)
