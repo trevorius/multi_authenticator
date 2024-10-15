@@ -59,10 +59,10 @@ export function Code2FaTable({
   return (
     <div>
       <AddToast
-        title={toast?.title}
-        description={toast?.description}
-        variant={toast?.variant}
-        callId={toast?.callId}
+        title={toast?.title || null}
+        description={toast?.description || null}
+        variant={toast?.variant || null}
+        callId={toast?.callId || null}
       />
       <div className='mb-4'>
         <Link
