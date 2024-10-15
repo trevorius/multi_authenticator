@@ -29,7 +29,7 @@ model Environment{
 }
 
 model Code2Fa {
-  SecretCode    String @id
+  secretCode    String @id
   name          String
   EnvironmentId String
   environment   Environment @relation(fields: [EnvironmentId], references: [id])
