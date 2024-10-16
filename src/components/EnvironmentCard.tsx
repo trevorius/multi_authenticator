@@ -10,7 +10,6 @@ const adjustedDeleteEnvironment = async (id: string | number) => {
   const result = await deleteEnvironment(id.toString());
   return {
     ...result,
-    success: result.success === 'true', // Convert success to boolean
   };
 };
 
