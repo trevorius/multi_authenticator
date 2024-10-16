@@ -60,3 +60,11 @@ npm start
 ### .bat option
 
 in the project root there is a .bat file edit with the folder path and it can be placed as a shortcut it will open your browser on the correct port.
+
+### build a boilerplate
+
+generate the json to serve :
+
+```bash
+npx shadcn-differ@latest > multi2FA.json
+```
