@@ -6,7 +6,7 @@ import { getUser } from '@/auth';
 export async function deleteCode(codeId: string) {
   const user = await getUser();
   if (!user) {
-    return { error: 'User not found' };
+    return { success: false, error: 'User not found' };
   }
 
   // find the code and its environemnt if nvironment user is user then delete it
@@ -32,10 +32,10 @@ export async function deleteCode(codeId: string) {
   return { success: 'Code deleted' };
 }
 
-export async function deleteEnvironment(environmentId: string) {
+export async function deleteEnvironment(environmentId: string | undefined): Promise<{ success?: string; error?: string }> {
   const user = await getUser();
   if (!user) {
-    return { error: 'User not found' };
+    return { error: 'User not found'};
   }
   const environment = await prisma.environment.findUnique({
     where: {
@@ -58,7 +58,8 @@ export async function deleteEnvironment(environmentId: string) {
       },
     });
   } catch (error) {
-    return { error: 'Error deleting environment' };
+    console.error('Error deleting environment:', error);
+    return { error: 'Error deleting environment'};
   }
   return { success: 'Environment deleted' };
 }

@@ -15,6 +15,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials, request) => {
+        const { username, password } = credentials as { username: string; password: string };
+        console.log(request);
+        
         if (!credentials?.username || !credentials?.password) {
           return null;
         }
@@ -22,7 +25,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         try {
           // Find the user in the database
           const user = await prisma.user.findUnique({
-            where: { username: credentials.username },
+            where: { username: username },
           });
 
           if (!user) {
@@ -31,17 +34,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           // Compare the provided password with the hashed password in the database
           const isPasswordValid = await bcrypt.compare(
-            credentials.password,
+            password,
             user.password
           );
 
           if (!isPasswordValid) {
             return null;
           }
+          
 
           // Return user object if validation is successful
           return {
-            id: user.id,
+            id: user.id.toString(), // Convert id to string
             name: user.name,
             username: user.username,
             email: user.email,

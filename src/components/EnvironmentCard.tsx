@@ -1,10 +1,17 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Environment, Code2Fa } from "@prisma/client";
 import { Code2FaTable } from "@/components/Code2FaTable";
-import { Trash } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { DeleteButton } from "@/components/DeleteButton";
 import { deleteEnvironment } from "@/app/protected/dashboard/environments/actions";
+
+// Adjust the deleteEnvironment function to accept string | number
+const adjustedDeleteEnvironment = async (id: string | number) => {
+  const result = await deleteEnvironment(id.toString());
+  return {
+    ...result,
+    success: result.success === "true", // Convert success to boolean
+  };
+};
 
 export function EnvironmentCard({
   environment,
@@ -21,7 +28,7 @@ export function EnvironmentCard({
           </div>
           <div className="">
             <DeleteButton
-              deleteAction={deleteEnvironment}
+              deleteAction={adjustedDeleteEnvironment}
               id={environment.id}
             />
           </div>

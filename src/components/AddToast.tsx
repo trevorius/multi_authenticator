@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useToast } from '@/hooks/use-toast';
-import { useEffect } from 'react';
+import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 export function AddToast({
   title,
@@ -12,19 +12,19 @@ export function AddToast({
   title: string | null;
   description: string | null;
   callId: string | null;
-  variant: string | null;
+  variant: "default" | "destructive" | "success" | null | undefined;
 }) {
   const { toast } = useToast();
 
   useEffect(() => {
     if (title || description || variant || callId)
       toast({
-        title: title || '',
-        description: description || '',
-        variant: variant || 'default',
+        title: title || "",
+        description: description || "",
+        variant: variant || "default",
         duration: 5000,
       });
-  }, [title, description, toast, callId]);
+  }, [title, description, toast, callId, variant]);
 
   return null;
 }

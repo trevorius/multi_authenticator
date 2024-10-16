@@ -47,7 +47,8 @@ export function Code2FaTable({
     if (response.success) {
       setToast({
         title: "Success",
-        description: response.success,
+        description:
+          typeof response.success === "string" ? response.success : "",
         variant: "success",
         callId: secretCode,
       });

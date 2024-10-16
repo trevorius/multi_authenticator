@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/services/prisma';
 import { generateTOTP } from '@/lib/totp'; // You'll need to implement this function
-import { log } from 'console';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
