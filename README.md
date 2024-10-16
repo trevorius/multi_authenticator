@@ -47,3 +47,16 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 - [Next.js](https://nextjs.org)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [ShadcnUi](https://shadcn-ui.vercel.app/)
+
+## run the project
+
+build the project first
+
+```bash
+npm run build
+npm start
+```
+
+### .bat option
+
+in the project root there is a .bat file edit with the folder path and it can be placed as a shortcut it will open your browser on the correct port.
