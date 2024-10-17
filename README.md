@@ -68,3 +68,9 @@ generate the json to serve :
 ```bash
 npx shadcn-differ@latest > multi2FA.json
 ```
+
+download and install a boiler plate : 
+
+```bash
+npx shadcn add "url to the raw json to install"
+```
