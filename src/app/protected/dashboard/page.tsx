@@ -1,10 +1,12 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-import { AddToast } from "@/components/AddToast";
 import { auth } from "@/auth";
+import { AddToast } from "@/components/AddToast";
 import prisma from "@/services/prisma";
+
 import { EnvironmentCard } from "@/components/EnvironmentCard";
+import { Code2Fa, Environment } from "@prisma/client";
 
 export default async function DashboardPage({
   searchParams,
@@ -26,14 +28,7 @@ export default async function DashboardPage({
       <AddToast
         title={searchParams.title as string}
         description={searchParams.description as string}
-        variant={
-          searchParams.variant as
-            | "default"
-            | "destructive"
-            | "success"
-            | null
-            | undefined
-        }
+        variant={searchParams.variant as "default" | "destructive" | "success" | null | undefined}
         callId={searchParams.call as string}
       />
       <div className="flex flex-wrap justify-between items-center mb-8 mx-2">
@@ -44,7 +39,7 @@ export default async function DashboardPage({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        {environments.map((environment) => (
+        {environments.map((environment: Environment & { Codes2Fa: Code2Fa[] }) => (
           <EnvironmentCard environment={environment} key={environment.id} />
         ))}
       </div>
