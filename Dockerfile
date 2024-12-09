@@ -78,9 +78,9 @@ RUN touch ./prisma/dev.db && chown nextjs:nodejs ./prisma/dev.db
 USER nextjs
 
 
-EXPOSE 3000
+EXPOSE 3030
 
-ENV PORT=3000
+ENV PORT=3030
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
